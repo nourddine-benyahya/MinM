@@ -1,0 +1,63 @@
+user
+{
+	id
+	username
+	firstName
+	lastName
+	age
+	image
+	email
+	password
+	phone number
+	role
+	creatat
+	updatedAt
+	nameCompany
+}
+post
+{
+	idpost
+	iduser
+	idfile
+	creatAt
+	updatedAt
+}
+
+files
+{
+	id
+	mText
+	mFile
+	constrant
+}
+
+
+likes
+{
+	idpost
+	iduser
+	body
+	date
+	creatAt
+	updatedAt
+}
+
+comment
+{
+	idpost
+	iduser
+	body
+	date
+	creatAt
+	updatedAt
+	
+}
+
+message
+{
+	idu1
+	idu2
+	idfile
+	creatAt
+	updatedAt
+}
