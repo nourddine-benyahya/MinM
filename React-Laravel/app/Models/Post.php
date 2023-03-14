@@ -20,4 +20,12 @@ class Post extends Model
     public function file (){
         return $this->hasOne(File::class);
     }
+    public function comments()
+{
+    return $this->hasMany(Comment::class);
+}
+public function likes()
+{
+    return $this->hasMany(Like::class);
+}
 }

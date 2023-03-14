@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,8 +15,19 @@ class PostController extends Controller
      * Display a listing of the resource.
      */
     public function index()
+    
     {
-        $posts = Post::all();
+
+        $posts = Post::with(['comments', 'likes'])
+        ->join('files', 'files.id', '=', 'posts.file_id')
+        ->join('users','users.id','=','posts.user_id')
+        ->select('files.message_text','files.message_file','users.*','posts.*')
+        ->get();
+
+    
+
+
+       
         return Inertia::render('Post/Allpost', [
             'posts' => $posts,
         ]);
@@ -24,20 +36,21 @@ class PostController extends Controller
      * my posts.
      */
 
-    public function myPosts()
-{
-    $posts = auth()->user()->posts;
-    return Inertia::render('Post/MyPosts', [
-        'posts' => $posts,
-    ]);
-}
+     public function myPosts()
+     {
+         $user = auth()->user();
+         $posts = $user->posts()->with(['comments', 'likes'])->get();
+         return Inertia::render('Post/Myposts', [
+             'posts' => $posts,
+         ]);
+     }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return Inertia::render('Auth/Register');
+        return Inertia::render('Post/AddPost');
     }
 
     /**
@@ -57,7 +70,7 @@ class PostController extends Controller
         $post->content = $validatedData['content'];
         $post->save();
     
-        return redirect()->route('posts.index');
+        return redirect(RouteServiceProvider::POST);
     }
 
     /**
@@ -65,7 +78,7 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        $posts = Post::find($id);
+        $posts = Post::with(['comments','likes'])->find($id);
         return Inertia::render('Post/detailpost', [
             'posts' => $posts,
         ]);
@@ -100,6 +113,6 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $post->delete();
-        return redirect()->route('posts.index');
+        return redirect(RouteServiceProvider::POST);
     }
 }

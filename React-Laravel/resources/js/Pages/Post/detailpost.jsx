@@ -17,7 +17,7 @@ export default function Edit({posts, auth, mustVerifyEmail, status }) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                     <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                         <div>{status}</div>
-                        <a href="/posts/1">my post</a>
+                        <a href="/posts/1">View post</a>
 
                     </div>
 

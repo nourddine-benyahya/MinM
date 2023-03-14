@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/posts', [PostController::class, 'index'])->name('post.index');
     Route::get('/posts/{id}', [PostController::class, 'show'])->name('post.show');
+    Route::get('/myposts', [PostController::class, 'myPosts'])->name('post.myposts');
     // Route::get('/post', [PostController::class, 'edit'])->name('post.edit');
     // Route::patch('/post', [PostController::class, 'update'])->name('post.update');
     // Route::delete('/post', [PostController::class, 'destroy'])->name('post.destroy');
