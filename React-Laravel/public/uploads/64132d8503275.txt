@@ -1,0 +1,54 @@
+USER:
+	createAcc: This function allows users to create a new account on the platform.
+	dropAcc: This function allows users to delete their account and all associated data from the platform.
+	editAcc: This function allows users to edit their account information, such as their username, email, or password.
+	forgetPassword: This function allows users to reset their password if they have forgotten it.
+ 
+POST:
+	getAllPosts: This function retrieves all posts that have been created on the platform.
+	getUserPosts: This function retrieves all posts created by a specific user.	
+	createPost: This function allows users to create a new post on the platform.
+	dropPost: This function allows users to delete a post they have created.	
+
+GROUP:
+	CreateGroup: This function allows users to create a new group on the platform.
+	getUsersCount: This function retrieves the total number of users on the platform.
+	getUsersInGroup: This function retrieves all users who are members of a specific group.
+	GetUserGroups: This function retrieves all groups that a specific user is a member of.
+	getGroups: This function retrieves all groups on the platform.
+	SendJoinRequest: This function allows users to send a request to join a specific group.
+	LeaveGroup: This function allows users to leave a group they are a member of.
+
+	/admin:  This is a subcategory of functions that are only accessible to administrators of specific groups.	
+		acceptUser: This function allows group administrators to accept a user's request to join their group.
+		kickUser: This function allows group administrators to remove a user from their group.
+		ManageGroup: This function allows group administrators to manage the settings of their specific group.
+		DeletePost: This function allows group administrators to delete a post created within their group.
+		DeleteComment: This function allows group administrators to delete a comment made within their group.
+		DropGroup: This function allows group administrators to delete their specific group entirely.
+
+FILE:
+	setfile: This function allows users to upload a file to the platform.
+	Getfile: This function allows users to download a file from the platform.
+	
+Commant:
+	AddComment: This function allows users to add a comment to a post.
+	DeleteComment: This function allows users to delete a comment they have made.
+	EditComment: This function allows users to edit a comment they have made.
+	getCommentsCount: This function retrieves the total number of comments made on a post.
+	getUserWhoComment: This function retrieves all users who have commented on a post.
+	getUserComments: This function retrieves all comments made by a specific user.
+
+message:
+	GetMessage: This function allows users to retrieve a private message.
+	DropMessage: This function allows users to delete a private message they have sent or received.
+	
+Like:
+	
+	SetLike: This function allows users to like a post.
+	DropLike: This function allows users to remove their like from a post.
+	getUserWhoLikesPost: This function retrieves all users who have liked a post.
+	getLikesCountPost: This function retrieves the total number of likes a post has received.
+	GetUserLikes: This function retrieves all posts that a user has liked.
+	
+	

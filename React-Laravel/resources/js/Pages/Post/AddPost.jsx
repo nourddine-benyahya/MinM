@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
@@ -9,12 +9,12 @@ import NumberInput from '@/components/NumberInput';
 import FileInput from '@/components/FileInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
-export default function AddPost({posts, auth, mustVerifyEmail, status }) {
+export default function AddPost({posts,files, auth, mustVerifyEmail, status }) {
+    console.log(files)
     const { data, setData, post, processing, errors, reset } = useForm({
-        file: null,
+        file: '',
         body: '',
     });
-
   
 
     const handleOnChange = (event) => {
@@ -22,8 +22,9 @@ export default function AddPost({posts, auth, mustVerifyEmail, status }) {
     };
 
     const submit = (e) => {
-        e.preventDefault();
+        e.preventDefault(); 
 
+        console.log(data.file)
         post(route('addpost'));
     };
 
@@ -34,7 +35,7 @@ export default function AddPost({posts, auth, mustVerifyEmail, status }) {
     >
         <GuestLayout>
             <Head title="addpost" />
-            <form onSubmit={submit}>
+            <form onSubmit={submit} enctype="multipart/form-data">
                 <div>
                     <InputLabel htmlFor="body" value="body" />
 
@@ -59,11 +60,12 @@ export default function AddPost({posts, auth, mustVerifyEmail, status }) {
                     <FileInput
                         id="file"
                         name="file"
-                        value={data.file}
                         className="mt-1 block w-full"
                         autoComplete="file"
                         isFocused={true}
-                        onChange={handleOnChange}
+                        onChange={(e) =>
+                            setData("file",e.target.files[0])
+                        }
                         required
                     />
 

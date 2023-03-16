@@ -9,15 +9,15 @@ import NumberInput from '@/components/NumberInput';
 import FileInput from '@/components/FileInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
-export default function AddPost({posts , file , auth, mustVerifyEmail, status }) {
-    console.log(file.message_text)
-    console.log(file.message_file)
+
+export default function EditPost({posts , files , auth, mustVerifyEmail, status }) {
+
     const { data, setData, post, processing, errors, reset } = useForm({
-        message_file: '',
-        message_text: file.message_text
+        file: '',
+        body: files.message_text
     });
 
-  
+
 
     const handleOnChange = (event) => {
         setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
@@ -26,7 +26,7 @@ export default function AddPost({posts , file , auth, mustVerifyEmail, status })
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("/updatepost/1"));
+        post(route('updatepost', {id: posts.id}));
     };
 
     return (
@@ -38,38 +38,38 @@ export default function AddPost({posts , file , auth, mustVerifyEmail, status })
             <Head title="addpost" />
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="message_text" value="message_text" />
+                    <InputLabel htmlFor="body" value="body" />
 
                     <TextInput
-                        id="message_text"
-                        name="message_text"
-                        value={data.message_text}
+                        id="body"
+                        name="body"
+                        value={data.body}
                         className="mt-1 block w-full"
-                        autoComplete="message_text"
+                        autoComplete="body"
                         isFocused={true}
                         onChange={handleOnChange}
                         required
                     />
 
-                    <InputError message={errors.message_text} className="mt-2" />
+                    <InputError message={errors.body} className="mt-2" />
                 </div>
 
 
                 <div>
-                    <InputLabel htmlFor="message_file" value="message_file" />
+                    <InputLabel htmlFor="file" value="file" />
 
                     <FileInput
-                        id="message_file"
-                        name="message_file"
-                        value={data.message_file}
+                        id="file"
+                        name="file"
                         className="mt-1 block w-full"
-                        autoComplete="message_file"
+                        autoComplete="file"
                         isFocused={true}
-                        onChange={handleOnChange}
-                        required
+                        onChange={(e) =>
+                            setData("file",e.target.files[0])
+                        }
                     />
 
-                    <InputError message={errors.message_file} className="mt-2" />
+                    <InputError message={errors.file} className="mt-2" />
                 </div>
                 
                 <div className="flex items-center justify-end mt-4">

@@ -21,16 +21,9 @@ class PostController extends Controller
     
     {
 
-        $posts = Post::with(['comments', 'likes'])
-        ->join('files', 'files.id', '=', 'posts.file_id')
-        ->join('users','users.id','=','posts.user_id')
-        ->select('files.message_text','files.message_file','users.username','users.firstname','users.lastname','posts.*')
-        ->get();
-
-    
+        $posts = Post::with(['comments', 'likes', 'user','file'])->get();
 
 
-       
         return Inertia::render('Post/Allpost', [
             'posts' => $posts,
         ]);
@@ -61,18 +54,20 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'body' => 'required',
+            'body',
             'file',
         ]);
 
-       /* $file = $request->file('file');
 
-        $filename = uniqid().'.'.$file->getClientOriginalExtension();
-        Storage::putFileAs('uploads', $file, $filename);
-         */
+
+        $file = $request->file('file');
+
+        $fileName = uniqid().'.'.$file->getClientOriginalExtension();
+        $request->file->move(public_path('uploads'), $fileName);
+         
         $file = new File();
         $file->message_text = $request->body;
-        $file->message_file = $request->file;
+        $file->message_file = '/uploads/'.$fileName;
         $file->save();
        
 
@@ -82,6 +77,7 @@ class PostController extends Controller
         $post->save();
     
         return redirect(RouteServiceProvider::POST);
+        
     }
 
     /*
@@ -107,8 +103,8 @@ class PostController extends Controller
             $file= File::findOrFail($post->file_id);
         
             return Inertia::render('Post/EditPost', [
-                'post' => $post,
-                'file'=> $file
+                'posts' => $post,
+                'files'=> $file
             ]);
         }else{
             return "not found";
@@ -118,28 +114,45 @@ class PostController extends Controller
     /*
     * Update the specified resource in storage.
     */
-    public function update(Request $request,  $id)
+    public function update(Request $request, string $id)
     {
-
-        return ($id);
-    }
-/*
         $post = Post::findOrFail($id);
+    
+        if (auth()->user()->id == $post->user_id) {
+            $file = File::findOrFail($post->file_id);
 
-        if(auth()->user()->id==$post->user_id){
-
-        $file= File::findOrFail($post->file_id);
-        $file->update($request->all());
-        return redirect(RouteServiceProvider::POST);
-        }else{
+            
+            if ($request->hasFile('file')) {
+                // Update both message text and message file
+                $validatedData = $request->validate([
+                    'body' => 'required',
+                    'file' => 'required',
+                ]);
+    
+                $uploadedFile = $request->file('file');
+                $fileName = uniqid().'.'.$uploadedFile->getClientOriginalExtension();
+                $uploadedFile->move(public_path('uploads'), $fileName);
+                $file->message_file = '/uploads/'.$fileName;
+                $file->message_text = $request->body;
+            } else {
+                // Update only message text
+                $validatedData = $request->validate([
+                    'body' => 'required',
+                ]);
+    
+                $file->message_text = $request->body;
+            }
+    
+            $file->save();
+            return redirect(RouteServiceProvider::POST);
+        } else {
             return "not found";
         }
     }
-
-
     
-    * Remove the specified resource from storage.
-    */
+
+
+
     public function destroy(string $id)
     {
         $post = Post::findOrFail($id);
