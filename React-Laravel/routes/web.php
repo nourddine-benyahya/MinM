@@ -43,12 +43,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
+
+
+
     Route::get('/posts', [PostController::class, 'index'])->name('post.index');
     Route::get('/posts/{id}', [PostController::class, 'show'])->name('post.show');
     Route::get('/myposts', [PostController::class, 'myPosts'])->name('post.myposts');
-    // Route::get('/post', [PostController::class, 'edit'])->name('post.edit');
-    // Route::patch('/post', [PostController::class, 'update'])->name('post.update');
-    // Route::delete('/post', [PostController::class, 'destroy'])->name('post.destroy');
+    Route::get('/addpost', [PostController::class, 'create']);
+    Route::post('/addpost', [PostController::class, 'store'])->name('addpost');
+    Route::get('/editpost/{id}', [PostController::class, 'edit'])->name('editpost');
+    Route::post('/updatepost/{id}', [PostController::class, 'update'])->name('updatepost');
+
+
 
 
     Route::get('/comment', [CommentController::class, 'index'])->name('comment.show');

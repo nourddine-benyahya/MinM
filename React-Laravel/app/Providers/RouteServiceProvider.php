@@ -19,7 +19,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const HOME = '/dashboard';
     public const PROFILE = '/profil';
-    public const POST = '/allPosts';
+    public const POST = '/posts';
     public const MYPOST = '/MyPosts';
 
     /**

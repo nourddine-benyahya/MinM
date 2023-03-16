@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class MessageController extends Controller
 {
@@ -11,7 +13,17 @@ class MessageController extends Controller
      */
     public function index()
     {
-        //
+        $message = Message::with(['users','files'])
+        ->join('users', 'users.id', '=', 'message.by_user_id')
+        ->join('users','users.id','=','message.to_user_id')
+        ->join('files','files.id','=','message.file_id')
+        ->select('files.message_text','files.message_file','users.firstname','users.lastname','messages.*')
+        ->get();
+
+    
+        return Inertia::render('Messages/AllMessage', [
+            'posts' => $message,
+        ]);
     }
 
     /**
@@ -57,8 +69,9 @@ class MessageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(String $MessageId)
     {
-        //
+        $message = Message::findOrFail($MessageId);
+        $message->delete();
     }
 }
