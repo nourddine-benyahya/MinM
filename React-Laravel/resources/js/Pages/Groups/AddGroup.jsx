@@ -9,11 +9,12 @@ import NumberInput from '@/components/NumberInput';
 import FileInput from '@/components/FileInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
-export default function Addmessage({ auth, mustVerifyEmail, status }) {
+export default function AddGroup({ auth, mustVerifyEmail, status }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        file: '',
-        body: '',
-    });
+        image: '',
+        description: '',
+        name:''
+    }); 
   
 
     const handleOnChange = (event) => {
@@ -24,57 +25,76 @@ export default function Addmessage({ auth, mustVerifyEmail, status }) {
         e.preventDefault(); 
 
         console.log(data.file)
-        post(route('addmessage', {id: 2}));
+        post(route('addgroups'));
     };
 
     return (
         <AuthenticatedLayout
         auth={auth}
-        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">send Message</h2>}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Add Post</h2>}
     >
         <GuestLayout>
-            <Head title="addmessage" />
+            <Head title="addgroup" />
             <form onSubmit={submit} enctype="multipart/form-data">
                 <div>
-                    <InputLabel htmlFor="body" value="body" />
+                    <InputLabel htmlFor="name" value="name" />
 
                     <TextInput
-                        id="body"
-                        name="body"
-                        value={data.body}
+                        id="name"
+                        name="name"
+                        value={data.name}
                         className="mt-1 block w-full"
-                        autoComplete="body"
+                        autoComplete="name"
                         isFocused={true}
                         onChange={handleOnChange}
                         required
                     />
 
-                    <InputError message={errors.body} className="mt-2" />
+                    <InputError message={errors.name} className="mt-2" />
                 </div>
 
 
                 <div>
-                    <InputLabel htmlFor="file" value="file" />
+                    <InputLabel htmlFor="image" value="image" />
 
                     <FileInput
-                        id="file"
-                        name="file"
+                        id="image"
+                        name="image"
                         className="mt-1 block w-full"
-                        autoComplete="file"
+                        autoComplete="image"
                         isFocused={true}
                         onChange={(e) =>
-                            setData("file",e.target.files[0])
+                            setData("image",e.target.files[0])
                         }
                         required
                     />
 
-                    <InputError message={errors.file} className="mt-2" />
+                    <InputError message={errors.image} className="mt-2" />
                 </div>
+
+                <div>
+                    <InputLabel htmlFor="description" value="description" />
+
+                    <TextInput
+                        id="description"
+                        name="description"
+                        value={data.description}
+                        className="mt-1 block w-full"
+                        autoComplete="description"
+                        isFocused={true}
+                        onChange={handleOnChange}
+                        required
+                    />
+
+                    <InputError message={errors.description} className="mt-2" />
+                </div>
+
+
                 
                 <div className="flex items-center justify-end mt-4">
 
                     <PrimaryButton className="ml-4" disabled={processing}>
-                        Send
+                        Post
                     </PrimaryButton>
                 </div>
             </form>

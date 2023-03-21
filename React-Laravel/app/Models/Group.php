@@ -20,6 +20,10 @@ class Group extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_groups', 'group_id', 'user_id');
+        return $this->belongsToMany(User::class, 'group_users', 'group_id', 'user_id');
+    }
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'group_creator');
     }
 }

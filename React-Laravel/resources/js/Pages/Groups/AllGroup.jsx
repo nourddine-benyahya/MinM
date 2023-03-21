@@ -1,12 +1,12 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 
-export default function Allmessage({message, auth, mustVerifyEmail, status }) {
-    console.log(message)
+export default function Edit({groups, auth, mustVerifyEmail, status }) {
+    console.log(groups)
     return (
         <AuthenticatedLayout
             auth={auth}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">All message</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">All groups</h2>}
         >
             <Head title="Profile" />
         

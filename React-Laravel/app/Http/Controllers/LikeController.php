@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Like;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class LikeController extends Controller
@@ -26,9 +27,17 @@ class LikeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,string $id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        $like = new Like();
+        $like->user_id = auth()->user()->id;
+        $like->post_id = $id;
+        $like->body = true;
+
+        $like->save();
+
     }
 
     /**

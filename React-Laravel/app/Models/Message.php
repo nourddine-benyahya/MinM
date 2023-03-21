@@ -15,10 +15,16 @@ class Message extends Model
         'file_id'
     ];  
 
-    public function user (){
-        return $this->hasOne(User::class);
+    public function touser()
+    {
+        return $this->belongsTo(User::class, 'to_user_id');
+    }
+    
+    public function byuser()
+    {
+        return $this->belongsTo(User::class, 'by_user_id');
     }
     public function file (){
-        return $this->hasOne(File::class);
+        return $this->belongsTo(File::class);
     }
 }

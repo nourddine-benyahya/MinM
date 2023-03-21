@@ -16,10 +16,10 @@ class File extends Model
     ];  
 
     public function post (){
-        return $this->hasOne(Post::class);
+        return $this->hasMany(Post::class);
     }
     public function message (){
-        return $this->hasOne(Message::class);
+        return $this->hasMany(Message::class);
     }
 
 }

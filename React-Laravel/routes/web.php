@@ -53,14 +53,21 @@ Route::middleware('auth')->group(function () {
     Route::post('/addpost', [PostController::class, 'store'])->name('addpost');
     Route::get('/editpost/{id}', [PostController::class, 'edit'])->name('editpost');
     Route::post('/updatepost/{id}', [PostController::class, 'update'])->name('updatepost');
+    Route::delete('/posts', [PostController::class, 'destroy'])->name('deletepost');
 
 
+    Route::get('/messages', [MessageController::class, 'index'])->name('message.show');
+    Route::get('/addmessage', [MessageController::class, 'create']);
+    Route::post('/addmessage/{id}', [MessageController::class, 'store'])->name('addmessage');
+    Route::delete('/message', [MessageController::class, 'destroy'])->name('deletemessage');
 
 
     Route::get('/comment', [CommentController::class, 'index'])->name('comment.show');
-    Route::get('/comment', [CommentController::class, 'edit'])->name('comment.edit');
-    Route::patch('/comment', [CommentController::class, 'update'])->name('comment.update');
-    Route::delete('/comment', [CommentController::class, 'destroy'])->name('comment.destroy');
+    Route::get('/addcomment', [CommentController::class, 'create']);
+    Route::post('/addcomment/{id}', [CommentController::class, 'store'])->name('addcomment');
+    Route::get('/editcomment/{id}', [CommentController::class, 'edit'])->name('editcomment');
+    Route::post('/updatecomment/{id}', [CommentController::class, 'update'])->name('updatecomment');
+    Route::delete('/comment', [CommentController::class, 'destroy'])->name('deletecomment');
 
 
 
@@ -72,18 +79,19 @@ Route::middleware('auth')->group(function () {
 
 
 
-    Route::get('/group', [GroupController::class, 'index'])->name('group.show');
-    Route::get('/group', [GroupController::class, 'edit'])->name('group.edit');
-    Route::patch('/group', [GroupController::class, 'update'])->name('group.update');
-    Route::delete('/group', [GroupController::class, 'destroy'])->name('group.destroy');
+    Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
+    Route::get('/groups/{id}', [GroupController::class, 'show'])->name('groups.show');
+    Route::get('/mygroups', [GroupController::class, 'mygroup'])->name('mygroup');  
+
+    Route::get('/addgroups', [GroupController::class, 'create']);
+    Route::post('/addgroups', [GroupController::class, 'store'])->name('addgroups');
+    Route::get('/editgroups/{id}', [GroupController::class, 'edit'])->name('editgroups');
+    Route::post('/updategroups/{id}', [GroupController::class, 'update'])->name('updategroups');
+    Route::delete('/groups', [GroupController::class, 'destroy'])->name('deletegroups');
 
 
 
 
-    Route::get('/message', [MessageController::class, 'index'])->name('message.show');
-    Route::get('/message', [MessageController::class, 'edit'])->name('message.edit');
-    Route::patch('/message', [MessageController::class, 'update'])->name('message.update');
-    Route::delete('/message', [MessageController::class, 'destroy'])->name('message.destroy');
 
 
     Route::get('/file', [FileController::class, 'index'])->name('file.show');

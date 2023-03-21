@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\File;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,16 +15,14 @@ class MessageController extends Controller
      */
     public function index()
     {
-        $message = Message::with(['users','files'])
-        ->join('users', 'users.id', '=', 'message.by_user_id')
-        ->join('users','users.id','=','message.to_user_id')
-        ->join('files','files.id','=','message.file_id')
-        ->select('files.message_text','files.message_file','users.firstname','users.lastname','messages.*')
-        ->get();
+
+        $userId = auth()->user()->id;
+        $message = Message::with(['file','byuser','touser'])->where('by_user_id', $userId)->get();
+   
 
     
-        return Inertia::render('Messages/AllMessage', [
-            'posts' => $message,
+        return Inertia::render('Messages/Allmessage', [
+            'message' => $message,
         ]);
     }
 
@@ -31,15 +31,42 @@ class MessageController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Messages/Addmessage');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request ,string $id)
     {
-        //
+
+
+        $user = User::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'body',
+            'file',
+        ]);
+
+        $file = $request->file('file');
+
+        $fileName = uniqid().'.'.$file->getClientOriginalExtension();
+        $request->file->move(public_path('uploads'), $fileName);
+         
+        $file = new File();
+        $file->message_text = $request->body;
+        $file->message_file = '/uploads/'.$fileName;
+        $file->save();
+
+
+
+        $message = new Message();
+        $message->by_user_id = auth()->user()->id;
+        $message->to_user_id = $id;
+
+        $message->file_id = $file->id;
+        $message->save();
+
     }
 
     /**

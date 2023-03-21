@@ -68,7 +68,8 @@ class CommentController extends Controller
     public function update(Request $request, string $id)
     {
         $comment= Comment::findOrFail($id);
-        $comment->update($request->all());
+        $comment->body = $request->body;
+        $comment->save();
     }
 
     /**

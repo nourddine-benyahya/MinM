@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
@@ -9,32 +9,34 @@ import NumberInput from '@/components/NumberInput';
 import FileInput from '@/components/FileInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
-export default function Addmessage({ auth, mustVerifyEmail, status }) {
+
+export default function EditPost({groups , files , auth, mustVerifyEmail, status }) {
+
     const { data, setData, post, processing, errors, reset } = useForm({
         file: '',
-        body: '',
+        body: files.message_text
     });
-  
+
+
 
     const handleOnChange = (event) => {
         setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
     };
 
     const submit = (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
 
-        console.log(data.file)
-        post(route('addmessage', {id: 2}));
+        post(route('updatepost', {id: posts.id}));
     };
 
     return (
         <AuthenticatedLayout
         auth={auth}
-        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">send Message</h2>}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Edit Post</h2>}
     >
         <GuestLayout>
-            <Head title="addmessage" />
-            <form onSubmit={submit} enctype="multipart/form-data">
+            <Head title="addpost" />
+            <form onSubmit={submit}>
                 <div>
                     <InputLabel htmlFor="body" value="body" />
 
@@ -65,7 +67,6 @@ export default function Addmessage({ auth, mustVerifyEmail, status }) {
                         onChange={(e) =>
                             setData("file",e.target.files[0])
                         }
-                        required
                     />
 
                     <InputError message={errors.file} className="mt-2" />
@@ -74,11 +75,13 @@ export default function Addmessage({ auth, mustVerifyEmail, status }) {
                 <div className="flex items-center justify-end mt-4">
 
                     <PrimaryButton className="ml-4" disabled={processing}>
-                        Send
+                        EditPost
                     </PrimaryButton>
                 </div>
             </form>
+
         </GuestLayout>
         </AuthenticatedLayout>
+
     );
 }
