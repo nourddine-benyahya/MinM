@@ -12,7 +12,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function EditPost({posts , files , auth, mustVerifyEmail, status }) {
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData,delete: destroy, post, processing, errors, reset } = useForm({
         file: '',
         body: files.message_text
     });
@@ -26,7 +26,7 @@ export default function EditPost({posts , files , auth, mustVerifyEmail, status 
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('updatepost', {id: posts.id}));
+        destroy(route('message.destroy',{id:3}));
     };
 
     return (
