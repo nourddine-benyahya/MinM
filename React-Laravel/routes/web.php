@@ -108,6 +108,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/file', [FileController::class, 'destroy'])->name('file.destroy');
 
 
+    Route::get('/meeting', function () {
+        return redirect('http://localhost:9001/demos/dashboard/');
+    });
+
+
 });
 
 require __DIR__.'/auth.php';
